@@ -11,6 +11,8 @@
   },
   "scripts": {
     "test": "echo \"no tests yet — project scaffolded\" && exit 0",
+    "test:unit": "echo \"Add your unit tests here\" && exit 0",
+    "test:lint": "echo \"Add your linter here\" && exit 0",
     "test:smoke": "echo \"Add your smoke tests here\" && exit 0",
     "prepare": "husky"
   },

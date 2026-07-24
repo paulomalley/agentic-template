@@ -16,5 +16,40 @@ Commit at these checkpoints:
 - When switching between PLAN and ACT mode
 - At end of session if work is incomplete (use `wip:` prefix)
 
-## Pre-Commit Validation
-**This is now enforced by a Git pre-commit hook (via Husky).** The hook runs the test suite, linter, and checks for cache files. Do not rely on manual memory â€” the hook will block bad commits automatically. See `.husky/pre-commit` for the exact checks.
+## Pre-Commit Validation (Automated Enforcement)
+
+**This is enforced by a Git pre-commit hook (via Husky).** The hook runs the following checks mechanically. Do not rely on manual memory — the hook enforces `.clinerules/` governance automatically.
+
+### Checks Run on Every Commit
+
+| # | What It Checks | Violation => |
+|---|---|---|
+| 1 | No dependency/build artifacts staged (`node_modules/`, `dist/`, etc.) | ❌ Blocks commit |
+| 2 | No untracked cache/build files present | ⚠️ Warns |
+| 3 | Boundary-path changes (`client/`, `server/src/routes/`) must include integration tests (`tests/integration/`) | ⚠️ Warns |
+| 4 | Boundary-path changes auto-run `npm run test:smoke` | ❌ Blocks if fails |
+| 5 | Source file changes should have corresponding test file changes in the same commit (TDD) | ⚠️ Warns |
+| 6 | >3 non-test source files changed triggers multi-file transform warning | ⚠️ Warns |
+| 7 | Feature-level commits (touching `.clinerules/` or `docs/`) should update `docs/approvals.md` | ⚠️ Warns |
+| 8 | Runs linter (`npm run test:lint`) if configured | ❌ Blocks if fails |
+| 9 | Test count should not decrease without replacement | ⚠️ Warns |
+
+### Bypassing Individual Checks
+
+Use environment variables to skip specific checks for a single commit:
+
+```bash
+SKIP_TESTS=1 git commit            # skip all test/lint checks
+SKIP_TDD=1 git commit              # skip TDD file-ratio check
+SKIP_SMOKE=1 git commit            # skip smoke test
+ALLOW_MULTI_FILE=1 git commit      # suppress multi-file warning
+ALLOW_APPROVAL_SKIP=1 git commit   # skip approvals doc check
+```
+
+### Emergency Escape
+
+```bash
+git commit --no-verify   # skip ALL hook checks
+```
+
+This should be used sparingly — a commit that bypasses the hook also bypasses governance enforcement. Only use `--no-verify` when the hook is incorrectly blocking a legitimate commit (file a bug in that case).
