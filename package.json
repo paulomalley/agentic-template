@@ -1,0 +1,21 @@
+{
+  "devDependencies": {
+    "husky": "^9.1.7"
+  },
+  "name": "agentictemplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"no tests yet — project scaffolded\" && exit 0",
+    "test:smoke": "echo \"Add your smoke tests here\" && exit 0",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

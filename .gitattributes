@@ -1,0 +1,36 @@
+# Auto-detect text files and normalize to LF in repo, platform-native on checkout
+* text=auto
+
+# Shell scripts must stay LF even on Windows
+*.sh text eol=lf
+
+# PowerShell scripts can be CRLF on Windows, LF in repo
+*.ps1 text
+*.psm1 text
+*.psd1 text
+
+# Markdown and documentation
+*.md text
+*.txt text
+
+# Config files
+*.json text
+*.yml text
+*.yaml text
+*.ini text
+*.cfg text
+
+# Git files
+*.gitattributes text
+*.gitignore text
+
+# Binary files - never modify
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary

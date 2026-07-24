@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run your project's checks (replace with your own commands)
+# Example for Node: npm run lint && npm run typecheck && npm run test:unit
+# Example for Python: pytest && flake8
+# Example for generic: make test
+
+# Check for untracked cache/build files
+if git status --short | grep -E '^??' | grep -E '(node_modules|dist|build|coverage|\.env)'; then
+    echo "ERROR: Untracked cache/build files detected. Please add them to .gitignore."
+    exit 1
+fi
+
+# Verify only project source files are staged
+if git diff --cached --name-only | grep -E '(node_modules|dist|build|coverage|\.env)'; then
+    echo "ERROR: Build/cache files are staged. Please unstage them with 'git rm --cached'."
+    exit 1
+fi
+
+echo "Pre-commit checks passed."
