@@ -174,7 +174,25 @@ else
 fi
 
 # ================================================================
-# CHECK 9: Test count guard — ensure tests aren't silently shrinking
+# CHECK 9: Run main test suite (code-validate-fix-validate loop safety net)
+# ================================================================
+if [ -z "$SKIP_TESTS" ]; then
+    TEST_CMD=$(npm run --silent 2>/dev/null | grep -E '^test[ $]' || echo '')
+    if [ -n "$TEST_CMD" ]; then
+        echo "   Running test suite..."
+        if npm test 2>/dev/null; then
+            echo "${GREEN}   ✔ Tests passed${NC}"
+        else
+            echo "${RED}✖ BLOCKING: Tests failed. Fix before committing, or use SKIP_TESTS=1.${NC}"
+            error_count=$((error_count + 1))
+        fi
+    else
+        echo "   Skipping tests — no test script configured."
+    fi
+fi
+
+# ================================================================
+# CHECK 10: Test count guard — ensure tests aren't silently shrinking
 # ================================================================
 if [ -z "$SKIP_TESTS" ] && [ -d "tests" ]; then
     ADDED_TESTS=$(echo "$STAGED_FILES" | grep -cE '^tests/.*\.test\.' || true)
