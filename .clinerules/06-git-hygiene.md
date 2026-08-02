@@ -32,8 +32,10 @@ Commit at these checkpoints:
 | 6 | >3 non-test source files changed triggers multi-file transform warning | ⚠️ Warns |
 | 7 | Feature-level commits (touching `.clinerules/` or `docs/`) should update `docs/approvals.md` | ⚠️ Warns |
 | 8 | Runs linter (`npm run test:lint`) if configured | ❌ Blocks if fails |
-| 9 | Runs main test suite (`npm test`) on every commit | ❌ Blocks if fails |
+| 9 | Runs main test suite (`npm test`) on every commit (includes e2e tests) | ❌ Blocks if fails |
 | 10 | Test count should not decrease without replacement | ⚠️ Warns |
+| 11 | `client/**` changes should include corresponding e2e test changes in `tests/e2e/` | ⚠️ Warns |
+| 12 | E2E test count in `tests/e2e/` should not decrease without replacement | ⚠️ Warns |
 
 ### Bypassing Individual Checks
 

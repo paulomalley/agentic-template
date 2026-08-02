@@ -1,23 +1,25 @@
 {
-  "devDependencies": {
-    "husky": "^9.1.7"
-  },
   "name": "agentictemplate",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "commonjs",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"no tests yet — project scaffolded\" && exit 0",
-    "test:unit": "echo \"Add your unit tests here\" && exit 0",
-    "test:lint": "echo \"Add your linter here\" && exit 0",
-    "test:smoke": "echo \"Add your smoke tests here\" && exit 0",
+    "test:unit": "cross-env NODE_ENV=test echo \"Add your unit tests here\" && exit 0",
+    "test:lint": "cross-env NODE_ENV=test echo \"Add your linter here\" && exit 0",
+    "test:smoke": "cross-env NODE_ENV=test echo \"Add your smoke tests here\" && exit 0",
+    "test:e2e": "cross-env CI=1 npx playwright test",
+    "test": "npm run test:unit && npm run test:lint && npm run test:smoke && npm run test:e2e",
     "prepare": "husky"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "husky": "^9.1.7"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "license": "ISC"
 }
